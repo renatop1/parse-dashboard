@@ -70,7 +70,7 @@ export default class DragHandle extends React.Component {
   }
 
   render() {
-    return <div {...this.props} onMouseDown={this.onMouseDown} />;
+    return <span {...this.props} onMouseDown={this.onMouseDown} />;
   }
 }
 

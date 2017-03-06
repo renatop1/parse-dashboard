@@ -15,22 +15,18 @@ import { DragDropContext } from 'react-dnd';
 @DragDropContext(HTML5Backend)
 export default class DataBrowserHeaderBar extends React.Component {
   render() {
-    let { headers, onResize, selected, selectAll, onAddColumn, updateOrdering, readonly, handleDragDrop } = this.props;
+    let { headers, onResize, selected, selectAll, onAddColumn, updateOrdering, readonly, handleDragDrop, minWidth } = this.props;
     let elements = [
       // Note: bulk checkbox is disabled as all rows are selected (not just visible ones due to current lazy loading implementation)
       // TODO: add bulk checking only visible rows
-      <div key='check' className={[styles.wrap, styles.check].join(' ')}>
+      <span key='check' className={styles.check}>
         {readonly ? null : <input className={styles.disabled} type='checkbox' disabled={true} checked={false} onChange={(e) => selectAll(e.target.checked)} />}
-      </div>
+      </span>
     ];
+
 
     headers.forEach(({ width, name, type, targetClass, order }, i) => {
       let wrapStyle = { width };
-      if (i % 2) {
-        wrapStyle.background = '#726F85';
-      } else {
-        wrapStyle.background = '#66637A';
-      }
       let onClick = null;
       if (type === 'String' || type === 'Number' || type === 'Date' || type === 'Boolean') {
         onClick = () => updateOrdering((order === 'descending' ? '' : '-') + name);
@@ -48,7 +44,7 @@ export default class DataBrowserHeaderBar extends React.Component {
             targetClass={targetClass}
             order={order}
             index={i}
-            moveDataBrowserHeader={this.props.handleDragDrop}/>
+            moveDataBrowserHeader={handleDragDrop}/>
         </div>
       );
       elements.push(
@@ -56,13 +52,9 @@ export default class DataBrowserHeaderBar extends React.Component {
       );
     });
 
-    let finalStyle = {};
-    if (headers.length % 2) {
-      finalStyle.background = 'rgba(224,224,234,0.10)';
-    }
     elements.push(
       readonly ? null : (
-        <div key='add' className={styles.addColumn} style={finalStyle}>
+        <div key='add' className={[styles.wrap, styles.addColumn].join(' ')}>
           <a
             href='javascript:;'
             role='button'
@@ -74,6 +66,6 @@ export default class DataBrowserHeaderBar extends React.Component {
       )
     );
 
-    return <div className={styles.bar}>{elements}</div>;
+    return <div className={styles.bar} style={{ minWidth: minWidth }}>{elements}</div>;
   }
 }

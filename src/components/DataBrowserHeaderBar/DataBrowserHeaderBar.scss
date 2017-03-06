@@ -12,7 +12,7 @@
   top: 0;
   left: 0;
   height: 30px;
-  background: #66637a;
+  background-color: #66637a;
   white-space: nowrap;
   display: inline-block;
   min-width: 100%;
@@ -23,6 +23,10 @@
 .wrap {
   display: inline-block;
   vertical-align: top;
+
+  &:nth-of-type(2n+1) {
+    background-color: #726F85;
+  }
 }
 
 .addColumn {
@@ -48,12 +52,13 @@
 }
 
 .check {
+  display: inline-block;
   line-height: 30px;
   height: 30px;
   vertical-align: top;
   text-align: center;
   width: 30px;
-  background: rgba(224,224,234,0.10);
+  background-color: #66637a;
 }
 
 .handle {
